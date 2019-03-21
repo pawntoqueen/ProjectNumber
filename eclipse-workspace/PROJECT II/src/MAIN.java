@@ -24,9 +24,7 @@ public class MAIN {
 			Thread.sleep(100);
 		}
 		System.out.println();
-		System.out.println("------------------------------------");
-		System.out.println("commit test");
-		
+		System.out.println("------------------------------------");		
 	}
 
 }
