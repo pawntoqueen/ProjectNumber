@@ -25,6 +25,7 @@ public class MAIN {
 		}
 		System.out.println();
 		System.out.println("------------------------------------");
+		System.out.println("commit test");
 		
 	}
 
