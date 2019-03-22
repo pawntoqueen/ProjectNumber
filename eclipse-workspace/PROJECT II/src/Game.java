@@ -7,7 +7,7 @@ public class Game {
 	{
 		Random rnd= new Random();
 		int round=1;
-		System.out.println("--------------round"+round+"--------------");
+		System.out.println("--------------Round " + round+"--------------");
 		int target_number= rnd.nextInt(899)+100;
 		System.out.println("Target Number: "+ target_number);
 		int[] numbers = new int[7]; 
