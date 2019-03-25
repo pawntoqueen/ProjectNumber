@@ -37,6 +37,7 @@ class infixToPostfix {
 				System.out.println(postfix);
 			} else if (operators.get(4).equals(infix.substring(0, 1))) {
 				stack.push(infix.substring(0, 1));
+				printStack();
 				infix = infix.substring(1);
 			} else if (operators.get(5).equals(infix.substring(0, 1))) {
 				while (!stack.peek().equals("(")) {
@@ -48,7 +49,7 @@ class infixToPostfix {
 			} else {
 				operator = infix.substring(0, 1);
 
-				if (!stack.isEmpty()) {
+				if (!stack.isEmpty()) { 
 					do {
 						operation = true;
 						if ((operator.equals("*") || operator.equals("/"))
@@ -76,6 +77,16 @@ class infixToPostfix {
 
 	public String toString() {
 		return postfix;
+	}
+	
+	public void printStack() {
+		Stack tempstack = new Stack();
+		while (! (stack.isEmpty())) {
+		System.out.println(stack.peek());
+		tempstack.push(stack.pop());
+		}
+		while (! (stack.isEmpty()))
+		stack.push(tempstack.pop());
 	}
 
 	
