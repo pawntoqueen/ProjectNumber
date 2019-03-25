@@ -76,9 +76,11 @@ public class Game {
 					postfix.Push(secondOperand / firstOperand);
 				//
 				
+				showPostFixEvalStep(expression, postfix, i);
+				
 			}
 			
-			showPostFixEvalStep(expression, postfix, i);
+			
 			
 			
 		} // for end
