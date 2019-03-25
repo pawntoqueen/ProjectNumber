@@ -20,6 +20,7 @@ class infixToPostfix {
 		operators.add("(");
 		operators.add(")");
 
+		System.out.println();
 		while (infix.length() > 0) {
 
 			String operand;
@@ -77,14 +78,6 @@ class infixToPostfix {
 		return postfix;
 	}
 
-	public static void main(String[] args) {
-
-		// Scanner input = new Scanner(System.in);
-		// System.out.print("Enter player's solution : ");
-		// String infix = input.next();
-		infixToPostfix postfix = new infixToPostfix("(1+6)*9/4*(75-9)");
-		System.out.println("Postfix expression : " + postfix);
-
-	}
+	
 
 }

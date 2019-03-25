@@ -25,13 +25,17 @@ public class Game {
 		time();
 
 		
-
-		System.out.print("Please enter your operation : ");
-		Scanner sc = new Scanner(System.in);
-		String operation = sc.next();
 		System.out.println();
 		System.out.println(
 				"--------------------------------------------------------------------------------------------");
+
+		Scanner input = new Scanner(System.in);
+	    System.out.print("Enter player's solution : ");
+		String infix = input.next();
+		infixToPostfix postfix = new infixToPostfix(infix);
+		
+		System.out.println("Postfix expression : " + postfix);
+		
 
 	}
 
@@ -56,7 +60,5 @@ public class Game {
 		System.out.println("\n");
 
 	}
-
-	
 
 }
