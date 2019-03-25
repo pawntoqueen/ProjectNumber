@@ -30,6 +30,33 @@ public class Game {
 	
 
 	}
-	
+	public Stack prefix() {
+		String inpt="1+6*9/4*(75-9)";
+
+		String[] convert = new String[20];
+		int j=0, k=0;
+
+		while (k<inpt.length()-1) {
+			while(!inpt.substring(k,k+1).equals("*") && !inpt.substring(k,k+1).equals("+")&& !inpt.substring(k,k+1).equals("-")&&!inpt.substring(k,k+1).equals("/")&&!inpt.substring(k,k+1).equals("(")&&!inpt.substring(k,k+1).equals(")"))
+			{	
+				convert[j]+= inpt.substring(k,k+1); k++;
+			}
+			j++;
+			if(inpt.substring(k,k+1).equals("*") || inpt.substring(k,k+1).equals("+") || inpt.substring(k,k+1).equals("-") || inpt.substring(k,k+1).equals("/") || inpt.substring(k,k+1).equals("(") || inpt.substring(k,k+1).equals(")"))
+			{	
+				convert[j]+= inpt.substring(k,k+1); k++;j++;
+			}
+		}
+
+		Stack stcTemp= new Stack(convert.length);
+		for (int i = 0; i < convert.length; i++) {
+			if(convert[i]!=null) {
+				System.out.print(" "+ convert[i].substring(4));
+				stcTemp.Push(convert[i].substring(4));	
+			}
+			
+		}
+		return stcTemp;
+	}
 	
 }
