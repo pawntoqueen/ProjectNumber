@@ -43,7 +43,7 @@ public class Game {
 		String[] expression = expressionString.split(" ");
 		System.out.println("Postfix expression: " + expressionString);
 		
-		System.out.println("------------------------");
+		System.out.println("-------------------------");
 		
 		for (int i = 0; i < expression.length; i++) { // for begin
 			
@@ -84,7 +84,7 @@ public class Game {
 			
 			
 		} // for end
-		System.out.println("------------------------");
+		System.out.println("-------------------------");
 		
 		// return the result
 		return (Integer) postfix.Pop();
