@@ -34,7 +34,7 @@ public class Game {
 		String infix = input.next();
 		infixToPostfix postfix = new infixToPostfix(infix);
 		
-		System.out.println("Postfix expression : " + postfix);
+		postfixEvaluation(postfix.toString());
 		
 
 	}
@@ -46,7 +46,7 @@ public class Game {
 
 		do {
 
-			// b�t�n islemler burada olacak
+			// butun islemler burada olacak
 
 			time1 = System.currentTimeMillis();
 
@@ -85,7 +85,7 @@ public class Game {
 			// then push the result into the stack.
 			else if (postfix.Size() >= 2){
 				
-				showPostFixEvalStep(expression, postfix, i);
+				showPostFixEvalStep(postfix);
 				
 				//
 				int firstOperand = Integer.valueOf(String.valueOf(postfix.Peek()));
@@ -105,7 +105,7 @@ public class Game {
 					postfix.Push(secondOperand / firstOperand);
 				//
 				
-				showPostFixEvalStep(expression, postfix, i);
+				showPostFixEvalStep(postfix);
 				
 			}
 			
@@ -120,65 +120,30 @@ public class Game {
 		
 	}
 	
-	public void showPostFixEvalStep(String[] remain, Stack postfix, int iter) {
+	public void showPostFixEvalStep(Stack stack) {
 		
 		/*
 		 * This function prints one step of the function game.postfixEvaluation().
 		 */
 		
-		Stack temp = new Stack(20); // temporary stack for showing the interior of the postfix stack.
+		Stack temp = new Stack(stack.Size());
 		
-		while(!postfix.isEmpty()) {
-			temp.Push(postfix.Peek());
-			postfix.Pop();
-		}
-		System.out.print("Step " + step + ": | ");
-		
-		while(!temp.isEmpty()) {
-			System.out.print(temp.Peek() + " ");
-			postfix.Push(temp.Peek());
-			temp.Pop();
-		}
 		System.out.println();
-		System.out.print("Postfix: ");
-		for (int i = iter; i < remain.length; i++) {
-			System.out.print(remain[i]);
-		}
-		step++;
-		System.out.println();
-		System.out.println();
-
-	public Stack prefix() {
-		String inpt="1+6*9/4*(75-9)";
-
-		String[] convert = new String[20];
-		int j=0, k=0;
-
-		while (k<inpt.length()-1) {
-			while(!inpt.substring(k,k+1).equals("*") && !inpt.substring(k,k+1).equals("+")&& !inpt.substring(k,k+1).equals("-")&&!inpt.substring(k,k+1).equals("/")&&!inpt.substring(k,k+1).equals("(")&&!inpt.substring(k,k+1).equals(")"))
-			{	
-				convert[j]+= inpt.substring(k,k+1); k++;
-			}
-			j++;
-			if(inpt.substring(k,k+1).equals("*") || inpt.substring(k,k+1).equals("+") || inpt.substring(k,k+1).equals("-") || inpt.substring(k,k+1).equals("/") || inpt.substring(k,k+1).equals("(") || inpt.substring(k,k+1).equals(")"))
-			{	
-				convert[j]+= inpt.substring(k,k+1); k++;j++;
-			}
-		}
-
-		Stack stcTemp= new Stack(convert.length);
-		for (int i = 0; i < convert.length; i++) {
-			if(convert[i]!=null) {
-				System.out.print(" "+ convert[i].substring(4));
-				stcTemp.Push(convert[i].substring(4));	
-			}
+		while(!stack.isEmpty()) {
+			if(Integer.valueOf(String.valueOf(stack.Peek())) / 10 > 0)
+				System.out.println("| " + stack.Peek() + " |");
+			else
+				System.out.println("| " + stack.Peek() + "  |");
+			temp.Push(stack.Pop());
 			
 		}
-		return stcTemp;
-  
+		System.out.println("------");
+		while(!temp.isEmpty()) {
+			stack.Push(temp.Pop());
+		}
+		System.out.println();
+		
 	}
-	
-}
 
   
   
