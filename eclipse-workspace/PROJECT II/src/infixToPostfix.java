@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 class infixToPostfix {
 
 	Stack stack = new Stack(25);

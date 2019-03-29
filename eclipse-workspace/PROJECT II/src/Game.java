@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
-
+	
 	public void printGameScreen() throws Exception {
 		Random rnd = new Random();
 		int round = 1;
@@ -30,7 +30,10 @@ public class Game {
 				"--------------------------------------------------------------------------------------------");
 
 		Scanner input = new Scanner(System.in);
-	    System.out.print("Enter player's solution : ");
+	    System.out.print("Enter player's solution: ");
+	    
+	    // TODO: hata kontrolu inputControl(int[] numbers, String input);
+	    
 		String infix = input.next();
 		infixToPostfix postfix = new infixToPostfix(infix);
 		
