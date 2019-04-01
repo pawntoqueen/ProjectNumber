@@ -4,31 +4,21 @@ import java.util.Scanner;
 public class Game {
 	
 	public void printGameScreen() throws Exception {
-		Random rnd = new Random();
-		int round = 1;
-		System.out.println("-------------------------------------- Round " + round
-				+ " --------------------------------------------");
-		int target_number = rnd.nextInt(899) + 100;
-		System.out.println("Target Number : " + target_number);
-		int[] numbers = new int[7];
-		System.out.println();
+		Question question = new Question();
+
+		System.out.println("-------------------------------------- Round " + ++Question.round + " --------------------------------------------");
+		System.out.println("Target Number : " + question.getTargetNumber());
 		System.out.print("Numbers: ");
-		for (int i = 0; i < 5; i++) {
-			numbers[i] = rnd.nextInt(8) + 1;
-			System.out.print(numbers[i] + " ");
+		for (int i = 0; i < 6; i++) {
+			System.out.print(question.getRandomNumbers()[i] + " ");
 		}
-		numbers[6] = (rnd.nextInt(4) + 1) * 25;
-		System.out.println(numbers[6]);
 		System.out.println();
 		System.out.print("Duration: ");
 
 		time();
 
-		
-		System.out.println();
 		System.out.println(
 				"--------------------------------------------------------------------------------------------");
-
 		Scanner input = new Scanner(System.in);
 	    System.out.print("Enter player's solution: ");
 	    
@@ -38,8 +28,6 @@ public class Game {
 		infixToPostfix postfix = new infixToPostfix(infix);
 		
 		postfixEvaluation(postfix.toString());
-		
-
 	}
 
 	public void time() {
@@ -48,12 +36,9 @@ public class Game {
 		long time2 = System.currentTimeMillis();
 
 		do {
-
-			// butun islemler burada olacak
-
 			time1 = System.currentTimeMillis();
 
-			if (time1 - time2 >= 50) {
+			if (time1 - time2 >= 5) {
 				System.out.print(countdown-- + " ");
 
 				time2 = time1;
