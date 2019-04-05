@@ -24,11 +24,11 @@ public class Answer {
 
 		Boolean valid = true;
 
-		for (int i = 0; i < inputValues.length; i++) {
-			valid = true;
+		for (int i = 0; i < counter; i++) {
+			
 			int counter1 = 0;
 			int counter2 = 0;
-			for (int j = 0; j < inputValues.length; j++) {
+			for (int j = 0; j < counter; j++) {
 
 				if (inputValues[i] == inputValues[j])
 					counter1++;
@@ -48,7 +48,7 @@ public class Answer {
 
 		}
 
-		return true;
+		return valid;
 	}
 
 	public void takeInput() {
