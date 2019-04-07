@@ -40,7 +40,7 @@ public class Question {
 		do {
 			time1 = System.currentTimeMillis();
 
-			if (time1 - time2 >= 100) {
+			if (time1 - time2 >= 10) {
 				System.out.print(countdown-- + " ");
 
 				time2 = time1;
@@ -48,6 +48,26 @@ public class Question {
 
 		} while (countdown >= 0);
 		System.out.println("\n");
+
+	}
+	public void printGameScreen() {
+
+		System.out.println("-------------------------------------- Round " + ++Question.round
+				+ " --------------------------------------------");
+
+		System.out.println("Target Number : " + getTargetNumber());
+
+		System.out.print("Numbers: ");
+		for (int i = 0; i < 6; i++) {
+			System.out.print(getRandomNumbers()[i] + " ");
+		}
+		System.out.println();
+
+		System.out.print("Duration: ");
+		time();
+
+		System.out.println(
+				"--------------------------------------------------------------------------------------------");
 
 	}
 

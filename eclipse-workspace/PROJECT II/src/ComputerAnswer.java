@@ -1,74 +1,62 @@
 
 public class ComputerAnswer {
-
-	ComputerAnswer() {
-
-		String[] operators = { "+", "-", "*", "/" };
-		int targetNumber = 500;
-		int min = 999;
-		int lastResult = 0;
-
-		for (int k = 0; k < 5; k++) {
-
-			int[] numbers = { 1, 2, 3, 4, 5, 100 };
-
-			int random1 = 0, random2 = 0, randomOperator = 0;
-			int result = 0, counter = 0;
-			boolean calculate = false;
-
-			for (int i = 0; i < 5; i++) {
-
-				do {
-
-					calculate = true;
-					random1 = (int) (Math.random() * 6);
-					random2 = (int) (Math.random() * 6);
-
-					if (random1 == random2 || numbers[random2] == 0 || numbers[random1] < numbers[random2])
-						calculate = false;
-					if (numbers[random1] == 1000 || numbers[random2] == 1000)
-						calculate = false;
-
-				} while (!calculate);
-
-				randomOperator = (int) (Math.random() * 4);
-
-				if (randomOperator == 0)
-					result = numbers[random1] + numbers[random2];
-				else if (randomOperator == 1)
-					result = numbers[random1] - numbers[random2];
-				else if (randomOperator == 2)
-					result = numbers[random1] * numbers[random2];
-				else if (randomOperator == 3)
-					result = numbers[random1] / numbers[random2];
-
-				// System.out.println(numbers[random1] + " " + operators[randomOperator] + " " +
-				// numbers[random2] + " = " + result);
-
-				if (random1 < random2) {
-					numbers[random1] = result;
-					numbers[random2] = 1000;
-				} else {
-					numbers[random2] = result;
-					numbers[random1] = 1000;
-				}
-
+	String[] operators= {"+","-","*","/"};
+	int min =999,lastResult=0;
+	
+	ComputerAnswer(Question question){		
+		int targetNumber = question.getTargetNumber();
+		Queue queue = new Queue(1000);
+		int num1=0, num2=0;
+		do {
+			int result=0;
+			for (int i = 0; i < question.getRandomNumbers().length-1; i++) {
+				queue.Enqueue(question.getRandomNumbers()[i]);
 			}
-			// System.out.println("########## Result : " + result + " ##########");
+			
+				int random1 = (int) (Math.random() * queue.Size());
+				if(queue.Size()>1) {
+					for (int i = 0; i < random1; i++) {
+						queue.Enqueue(queue.Dequeue());
+					}
+					 num1=(int)queue.Dequeue();
+				}
+				
+				if(queue.Size()>1) 
+				{
+					int random2 = (int) (Math.random() * queue.Size());
+					for (int i = 0; i < random2; i++) {
+						queue.Enqueue(queue.Dequeue());
+					}
+					num2=(int)queue.Dequeue();
+				}
+				
+				int randomOperator = (int) (Math.random() * 4);
+				
+				if (randomOperator == 0)
+					result = num1 + num2;
+				else if (randomOperator == 1)
+					result = num1 - num2;
+				else if (randomOperator == 2)
+					result = num1 * num2;
+				else if (randomOperator == 3 && num2 !=0)
+					result = num1 / num2;
+				
+				queue.Enqueue(result);
+				
 
+			
 			if (Math.abs(targetNumber - result) < min) {
 
 				min = Math.abs(targetNumber - result);
 				lastResult = result;
 
 			}
-
-		}
-		System.out.println();
+		}while(Math.abs(lastResult-targetNumber)>3);
+		
+		
 		System.out.println("#######################################");
 		System.out.println("########## Last Result : " + lastResult + " ##########");
 		System.out.println("#######################################");
-		System.out.println();
-	}
 
+	}
 }
