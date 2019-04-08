@@ -12,10 +12,7 @@ public class Game {
 		if(answer.inputControl(question.getRandomNumbers())) {
 			operation.infixToPostfix(answer.getInfix());
 			operation.postfixEvaluation(operation.toString());
-			
 		}
-		else
-			System.out.println("Your input is invalid.");
 		
 
 	}
