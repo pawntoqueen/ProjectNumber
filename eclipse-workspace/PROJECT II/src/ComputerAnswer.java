@@ -1,3 +1,4 @@
+
 public class ComputerAnswer {
 
 	String[] operators = { "+", "-", "*", "/" };
@@ -7,7 +8,7 @@ public class ComputerAnswer {
 
 	int counter = 0;
 
-	private int stepNumber = 0;
+	private int stepNumber;
 	private ComputerSolutionSteps[] solutionSteps;
 
 	ComputerAnswer(Question question) {
@@ -15,12 +16,13 @@ public class ComputerAnswer {
 		int targetNumber = question.getTargetNumber();
 		Queue queue;
 		int num1 = 0, num2 = 0;
-		solutionSteps = new ComputerSolutionSteps[1000000];
 
 		do {
 
 			queue = new Queue(6);
 			int result = 0;
+			stepNumber = 0;
+			solutionSteps = new ComputerSolutionSteps[5];
 
 			for (int i = 0; i < question.getRandomNumbers().length; i++) {
 				queue.Enqueue(question.getRandomNumbers()[i]);
@@ -52,7 +54,8 @@ public class ComputerAnswer {
 					result = num1 / num2;
 
 				queue.Enqueue(result);
-				addSolutionStep(num1, num2, operators[randomOperator], result);
+				if (Math.abs(lastResult - targetNumber) > targetRange)
+					addSolutionStep(num1, num2, operators[randomOperator], result);
 
 				if (Math.abs(targetNumber - result) < min) {
 
@@ -70,18 +73,12 @@ public class ComputerAnswer {
 		System.out.println("########## Last Result : " + lastResult + " ##########");
 		System.out.println("#######################################\n");
 
-		System.out.println(counter + "\n");
+		System.out.println("counter : " + counter + "\n");
 
 		for (int i = 0; i < solutionSteps.length; i++) {
 
-			if (solutionSteps[i] != null && solutionSteps[i].getResult() == lastResult) {
-
-				System.out.println(solutionSteps[i - 4].display());
-				System.out.println(solutionSteps[i - 3].display());
-				System.out.println(solutionSteps[i - 2].display());
-				System.out.println(solutionSteps[i - 1].display());
+			if (solutionSteps[i] != null)
 				System.out.println(solutionSteps[i].display());
-			}
 
 		}
 		System.out.println();
