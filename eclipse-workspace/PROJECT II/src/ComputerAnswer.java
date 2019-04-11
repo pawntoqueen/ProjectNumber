@@ -4,7 +4,6 @@ public class ComputerAnswer {
 	int min = 999;
 	static int targetRange = 0;
 	private int lastResult;
-	
 
 	int counter = 0;
 
@@ -13,11 +12,10 @@ public class ComputerAnswer {
 
 	ComputerAnswer(Question question) {
 
-		solutionSteps = new ComputerSolutionSteps[100000000];
-
 		int targetNumber = question.getTargetNumber();
 		Queue queue;
 		int num1 = 0, num2 = 0;
+		solutionSteps = new ComputerSolutionSteps[1000000];
 
 		do {
 
@@ -28,25 +26,18 @@ public class ComputerAnswer {
 				queue.Enqueue(question.getRandomNumbers()[i]);
 			}
 
-			for (int j = 0; j < 5; j++) {
+			while (queue.Size() > 1) {
 
 				int random1 = (int) (Math.random() * queue.Size() + 1);
-				if (queue.Size() > 1) {
-					for (int i = 0; i < random1; i++) {
-						queue.Enqueue(queue.Dequeue());
-					}
-
+				for (int i = 0; i < random1; i++) {
+					queue.Enqueue(queue.Dequeue());
 				}
-
-				if (queue.Size() > 1) {
-					int random2 = (int) (Math.random() * queue.Size());
-					for (int i = 0; i < random2; i++) {
-						queue.Enqueue(queue.Dequeue());
-					}
-
-				}
-
 				num1 = (int) queue.Dequeue();
+
+				int random2 = (int) (Math.random() * queue.Size());
+				for (int i = 0; i < random2; i++) {
+					queue.Enqueue(queue.Dequeue());
+				}
 				num2 = (int) queue.Dequeue();
 
 				int randomOperator = (int) (Math.random() * 4);
@@ -77,20 +68,23 @@ public class ComputerAnswer {
 
 		System.out.println("#######################################");
 		System.out.println("########## Last Result : " + lastResult + " ##########");
-		System.out.println("#######################################");
+		System.out.println("#######################################\n");
 
-		System.out.println(counter);
-		
+		System.out.println(counter + "\n");
 
 		for (int i = 0; i < solutionSteps.length; i++) {
 
 			if (solutionSteps[i] != null && solutionSteps[i].getResult() == lastResult) {
 
+				System.out.println(solutionSteps[i - 4].display());
+				System.out.println(solutionSteps[i - 3].display());
+				System.out.println(solutionSteps[i - 2].display());
+				System.out.println(solutionSteps[i - 1].display());
 				System.out.println(solutionSteps[i].display());
-
 			}
 
 		}
+		System.out.println();
 
 	}
 
