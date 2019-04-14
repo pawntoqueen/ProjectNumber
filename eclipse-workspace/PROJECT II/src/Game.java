@@ -10,7 +10,7 @@ public class Game {
 
 	Operation operation = new Operation();
 	Answer answer = new Answer();
-
+	int targetRange;
 	Game() throws Exception {
 		
 		difficultySelection();
@@ -18,7 +18,6 @@ public class Game {
 		Question question = new Question();
 		printGameScreen(question);
 		
-		calculate = new ComputerAnswer(question);
 			
 		answer.takeInput();
 		if (answer.inputControl(question.getRandomNumbers())) {
@@ -44,11 +43,11 @@ public class Game {
 			answer = difficultyInput.next();
 			if ("123".contains(answer)) {
 				if (answer.equals("1"))
-					ComputerAnswer.targetRange = 20;
+					targetRange = 20;
 				else if (answer.equals("2"))
-					ComputerAnswer.targetRange = 10;
+					targetRange = 10;
 				else
-					ComputerAnswer.targetRange = 1;
+					targetRange = 1;
 			} 
 			else
 				System.out.println("Wrong input, please try again.");
@@ -58,6 +57,8 @@ public class Game {
 	}
 	
 	public void printGameScreen(Question question) {
+
+		calculate = new ComputerAnswer();
 
 		System.out.println("-------------------------------------- Round " + ++Question.round
 				+ " --------------------------------------------");
@@ -71,7 +72,7 @@ public class Game {
 		System.out.println();
 
 		System.out.print("Duration: ");
-		time();
+		time(calculate,question);
 
 		System.out.println(
 				"--------------------------------------------------------------------------------------------");
@@ -79,15 +80,25 @@ public class Game {
 	}
 
 
-	public void time() {
+	public void time(ComputerAnswer calculate, Question question) {
 		int countdown = 30;
+		int count=0;
 		long time1 = 0;
 		long time2 = System.currentTimeMillis();
+		boolean flag = true;
 
 		do {
 			time1 = System.currentTimeMillis();
 
-			if (time1 - time2 >= 10) {
+			if(flag) {
+				calculate.ComputerAnswer(question);
+				count++;
+				if(Math.abs(calculate.getLastResult()-question.getTargetNumber())<targetRange)
+					flag=false;
+			}
+			
+			
+			if (time1 - time2 >= 100) {
 				System.out.print(countdown-- + " ");
 
 				time2 = time1;
@@ -95,6 +106,8 @@ public class Game {
 
 		} while (countdown >= 0);
 		System.out.println("\n");
+		System.out.println(calculate.getLastResult());
+		System.out.println(count);
 
 	}
 

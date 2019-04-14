@@ -11,13 +11,12 @@ public class ComputerAnswer {
 	private int stepNumber;
 	private ComputerSolutionSteps[] solutionSteps;
 
-	ComputerAnswer(Question question) {
+	public void ComputerAnswer(Question question) {
 
 		int targetNumber = question.getTargetNumber();
 		Queue queue;
 		int num1 = 0, num2 = 0;
-
-		do {
+		
 
 			queue = new Queue(6);
 			int result = 0;
@@ -67,24 +66,9 @@ public class ComputerAnswer {
 			}
 			counter++;
 
-		} while (Math.abs(lastResult - targetNumber) > targetRange);
-
-		System.out.println("#######################################");
-		System.out.println("########## Last Result : " + lastResult + " ##########");
-		System.out.println("#######################################\n");
-
-		System.out.println("counter : " + counter + "\n");
-
-		for (int i = 0; i < solutionSteps.length; i++) {
-
-			if (solutionSteps[i] != null)
-				System.out.println(solutionSteps[i].display());
-
-		}
-		System.out.println();
-
 	}
-
+	
+	
 	public void addSolutionStep(int num1, int num2, String operator, int result) {
 
 		solutionSteps[stepNumber++] = new ComputerSolutionSteps(num1, num2, operator, result);
