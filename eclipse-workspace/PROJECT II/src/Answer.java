@@ -3,6 +3,18 @@ import java.util.Scanner;
 public class Answer {
 
 	private String infix;
+	private int result;
+
+
+	public int getResult() {
+		return result;
+	}
+
+	public void setResult(int result) {
+		this.result = result;
+	}
+
+
 
 	public Boolean inputControl(int[] numbers) {
 
@@ -25,7 +37,7 @@ public class Answer {
 		Boolean valid = true;
 
 		for (int i = 0; i < counter; i++) {
-			
+
 			int counter1 = 0;
 			int counter2 = 0;
 			for (int j = 0; j < counter; j++) {
@@ -45,11 +57,11 @@ public class Answer {
 				valid = false;
 				break;
 			}
-
 		}
-
 		return valid;
 	}
+
+
 
 	public void takeInput() {
 
@@ -59,6 +71,23 @@ public class Answer {
 		System.out.println();
 
 	}
+
+	public void takeResult(ComputerAnswer calculate) {
+		Scanner ans = new Scanner(System.in);
+		System.out.print("Answer:");
+		int answer = ans.nextInt();
+		result = answer;
+		System.out.println();
+		System.out.println("result numbers");
+		System.out.print("player: ");
+		System.out.print(answer);
+		System.out.print("      ");
+		System.out.print("computer: ");
+		System.out.println(calculate.getLastResult());
+		System.out.println();
+	}
+
+
 
 	public String getInfix() {
 		return infix;

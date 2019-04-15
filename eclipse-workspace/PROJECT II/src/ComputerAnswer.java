@@ -67,11 +67,21 @@ public class ComputerAnswer {
 			counter++;
 
 	}
-	
-	
 	public void addSolutionStep(int num1, int num2, String operator, int result) {
 
 		solutionSteps[stepNumber++] = new ComputerSolutionSteps(num1, num2, operator, result);
+
+	}
+
+	public void printSolutionSteps() {
+
+		for (int i = 0; i < solutionSteps.length; i++) {
+
+			if (solutionSteps[i] != null)
+				System.out.println(solutionSteps[i].display());
+
+		}
+		System.out.println();
 
 	}
 
@@ -82,5 +92,4 @@ public class ComputerAnswer {
 	public void setLastResult(int lastResult) {
 		this.lastResult = lastResult;
 	}
-
 }

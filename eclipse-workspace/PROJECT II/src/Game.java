@@ -3,7 +3,7 @@ import java.util.Scanner;
 import enigma.core.Enigma;
 
 public class Game {
-	
+
 	ComputerAnswer calculate;
 
 	static enigma.console.Console cn = Enigma.getConsole("NUMBERS", 100, 30, 20, 5);
@@ -11,34 +11,43 @@ public class Game {
 	Operation operation = new Operation();
 	Answer answer = new Answer();
 	int targetRange;
+	
 	Game() throws Exception {
 		
-		difficultySelection();
-		
+			difficultySelection();
 		Question question = new Question();
 		printGameScreen(question);
-		
-			
-		answer.takeInput();
-		if (answer.inputControl(question.getRandomNumbers())) {
-			operation.infixToPostfix(answer.getInfix());
-			operation.postfixEvaluation(operation.toString());
+		answer.takeResult(calculate);
+		if(Math.abs(answer.getResult()-question.getTargetNumber())< Math.abs(calculate.getLastResult()-question.getTargetNumber())) {
+			answer.takeInput();
+			if (answer.inputControl(question.getRandomNumbers())) {
+				operation.infixToPostfix(answer.getInfix());
+				operation.postfixEvaluation(operation.toString());
+			}
+
 		}
 
+		else {
+			System.out.println(calculate.getLastResult());
+			calculate.printSolutionSteps();
+		}
+			
 	}
-	
+
+
+
 	public void difficultySelection() {
-		
+
 		Scanner difficultyInput = new Scanner(System.in);
-				
+
 		System.out.println("Select difficulty: ");
 		System.out.println("1. Easy");
 		System.out.println("2. Medium");
 		System.out.println("3. Hard");
-		
-		
+
+
 		String answer = " ";
-		
+
 		while (!"123".contains(answer)) {
 			answer = difficultyInput.next();
 			if ("123".contains(answer)) {
@@ -52,10 +61,10 @@ public class Game {
 			else
 				System.out.println("Wrong input, please try again.");
 		}
-		
+
 		difficultyInput.close();
 	}
-	
+
 	public void printGameScreen(Question question) {
 
 		calculate = new ComputerAnswer();
@@ -96,8 +105,8 @@ public class Game {
 				if(Math.abs(calculate.getLastResult()-question.getTargetNumber())<targetRange)
 					flag=false;
 			}
-			
-			
+
+
 			if (time1 - time2 >= 100) {
 				System.out.print(countdown-- + " ");
 
@@ -106,9 +115,9 @@ public class Game {
 
 		} while (countdown >= 0);
 		System.out.println("\n");
-		System.out.println(calculate.getLastResult());
-		System.out.println(count);
+
 
 	}
+
 
 }
