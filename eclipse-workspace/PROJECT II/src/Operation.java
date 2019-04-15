@@ -6,8 +6,11 @@ public class Operation {
 	String[] operators = { "+", "-", "*", "/", "(", ")" };
 	String postfix = "";
 
-	public void infixToPostfix(String infix) {
+	
 
+	public void infixToPostfix(String infix, boolean printSteps) {
+
+		postfix = "";
 		while (infix.length() > 0) {
 
 			String operand;
@@ -30,16 +33,20 @@ public class Operation {
 							notOperator = false;
 					}
 				} while (notOperator && !infix.isEmpty());
-				System.out.println(postfix + "\t\t\t");
-				printStack();
+				// infixToPostfixSteps[step] = postfix;
+				if (printSteps)
+					printStack();
 			} else if (operators[4].equals(infix.substring(0, 1))) {
 				stack.Push(infix.substring(0, 1));
 				infix = infix.substring(1);
 			} else if (operators[5].equals(infix.substring(0, 1))) {
 				while (!stack.Peek().equals("(")) {
 					postfix = postfix + " " + stack.Pop();
-					System.out.println(postfix + "\t\t\t");
-					printStack();
+					if (printSteps) {
+						System.out.println(postfix);
+						printStack();
+					}
+
 				}
 				stack.Pop();
 				infix = infix.substring(1);
@@ -56,15 +63,19 @@ public class Operation {
 							operation = false;
 						if (operation == true) {
 							postfix = postfix + " " + stack.Pop();
-							System.out.println(postfix + "\t\t\t");
-							printStack();
+
+							if (printSteps) {
+								printStack();
+								System.out.println(postfix);
+							}
 						}
 
 					} while (operation && !stack.isEmpty());
 				}
 				stack.Push(operator);
 				System.out.println(postfix + "\t\t\t");
-				printStack();
+				if (printSteps)
+					printStack();
 				infix = infix.substring(1);
 				postfix += " ";
 			}
@@ -73,6 +84,9 @@ public class Operation {
 		while (!stack.isEmpty()) {
 			postfix = postfix + " " + stack.Pop();
 		}
+
+		if(printSteps)
+			System.out.println(postfix);
 	}
 
 	public String toString() {

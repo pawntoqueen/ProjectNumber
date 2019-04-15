@@ -11,30 +11,64 @@ public class Game {
 	Operation operation = new Operation();
 	Answer answer = new Answer();
 	int targetRange;
-	
+
+	static int playerScore = 0;
+	static int computerScore = 0;
+	int point = 0;
+
 	Game() throws Exception {
-		
-			difficultySelection();
-		Question question = new Question();
-		printGameScreen(question);
-		answer.takeResult(calculate);
-		if(Math.abs(answer.getResult()-question.getTargetNumber())< Math.abs(calculate.getLastResult()-question.getTargetNumber())) {
-			answer.takeInput();
-			if (answer.inputControl(question.getRandomNumbers())) {
-				operation.infixToPostfix(answer.getInfix());
-				operation.postfixEvaluation(operation.toString());
+
+		difficultySelection();
+
+		while (playerScore < 100 && computerScore < 100) {
+
+			Question question = new Question();
+			printGameScreen(question);
+			answer.takeResult(calculate);
+
+			// player's result is closer to target number
+			if (Math.abs(answer.getResult() - question.getTargetNumber()) < Math
+					.abs(calculate.getLastResult() - question.getTargetNumber())) {
+				answer.takeInput();
+				if (answer.inputControl(question.getRandomNumbers())) {
+					operation.infixToPostfix(answer.getInfix(), true);
+					operation.postfixEvaluation(operation.toString());
+				}
+
+				if (Math.abs(answer.getResult() - question.getTargetNumber()) <= 10)
+					point = 15 - Abs(answer.getResult() - question.getTargetNumber());
+				else
+					point = 5;
+
+				playerScore += point;
+
+			}
+			// computer's result is closer target number
+			else {
+
+				System.out.println(calculate.getLastResult());
+				calculate.printSolutionSteps();
+
+				if (Math.abs(calculate.getLastResult() - question.getTargetNumber()) <= 10)
+					point = 15 - Abs(calculate.getLastResult() - question.getTargetNumber());
+				else
+					point = 5;
+
+				computerScore += point;
+
 			}
 
+			System.out.println("Player Score : " + playerScore);
+			System.out.println("Computer Score : " + computerScore);
+
 		}
 
-		else {
-			System.out.println(calculate.getLastResult());
-			calculate.printSolutionSteps();
-		}
-			
 	}
 
-
+	private int Abs(int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	public void difficultySelection() {
 
@@ -44,7 +78,6 @@ public class Game {
 		System.out.println("1. Easy");
 		System.out.println("2. Medium");
 		System.out.println("3. Hard");
-
 
 		String answer = " ";
 
@@ -57,8 +90,7 @@ public class Game {
 					targetRange = 10;
 				else
 					targetRange = 1;
-			} 
-			else
+			} else
 				System.out.println("Wrong input, please try again.");
 		}
 
@@ -81,17 +113,16 @@ public class Game {
 		System.out.println();
 
 		System.out.print("Duration: ");
-		time(calculate,question);
+		calculateDuringTime(calculate, question);
 
 		System.out.println(
 				"--------------------------------------------------------------------------------------------");
 
 	}
 
-
-	public void time(ComputerAnswer calculate, Question question) {
+	public void calculateDuringTime(ComputerAnswer calculate, Question question) {
 		int countdown = 30;
-		int count=0;
+		int count = 0;
 		long time1 = 0;
 		long time2 = System.currentTimeMillis();
 		boolean flag = true;
@@ -99,13 +130,12 @@ public class Game {
 		do {
 			time1 = System.currentTimeMillis();
 
-			if(flag) {
+			if (flag) {
 				calculate.ComputerAnswer(question);
 				count++;
-				if(Math.abs(calculate.getLastResult()-question.getTargetNumber())<targetRange)
-					flag=false;
+				if (Math.abs(calculate.getLastResult() - question.getTargetNumber()) < targetRange)
+					flag = false;
 			}
-
 
 			if (time1 - time2 >= 100) {
 				System.out.print(countdown-- + " ");
@@ -116,8 +146,6 @@ public class Game {
 		} while (countdown >= 0);
 		System.out.println("\n");
 
-
 	}
-
 
 }
