@@ -27,7 +27,7 @@ public class Game {
 			answer.takeResult(calculate);
 
 			// player's result is closer to target number
-			if (Math.abs(answer.getResult() - question.getTargetNumber()) < Math
+			if (Math.abs(answer.getResult() - question.getTargetNumber()) <= Math
 					.abs(calculate.getLastResult() - question.getTargetNumber())) {
 				answer.takeInput();
 				if (answer.inputControl(question.getRandomNumbers())) {
@@ -46,7 +46,6 @@ public class Game {
 			// computer's result is closer target number
 			else {
 
-				System.out.println(calculate.getLastResult());
 				calculate.printSolutionSteps();
 
 				if (Math.abs(calculate.getLastResult() - question.getTargetNumber()) <= 10)
@@ -62,6 +61,13 @@ public class Game {
 			System.out.println("Computer Score : " + computerScore);
 
 		}
+
+		if (playerScore > computerScore)
+			System.out.println("Player Win!");
+		else if (playerScore < computerScore)
+			System.out.println("Computer Win!");
+		else
+			System.out.println("It's a draw!");
 
 	}
 

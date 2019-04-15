@@ -5,7 +5,6 @@ public class Answer {
 	private String infix;
 	private int result;
 
-
 	public int getResult() {
 		return result;
 	}
@@ -13,8 +12,6 @@ public class Answer {
 	public void setResult(int result) {
 		this.result = result;
 	}
-
-
 
 	public Boolean inputControl(int[] numbers) {
 
@@ -61,8 +58,6 @@ public class Answer {
 		return valid;
 	}
 
-
-
 	public void takeInput() {
 
 		Scanner input = new Scanner(System.in);
@@ -75,21 +70,17 @@ public class Answer {
 
 	public void takeResult(ComputerAnswer calculate) {
 		Scanner ans = new Scanner(System.in);
-		System.out.print("Answer:");
+		System.out.print("Answer : ");
 		int answer = ans.nextInt();
 		result = answer;
 		System.out.println();
-		System.out.println("result numbers");
-		System.out.print("player: ");
-		System.out.print(answer);
+		System.out.println("Result Numbers");
+		System.out.print("Player : " + answer);
 		System.out.print("      ");
-		System.out.print("computer: ");
-		System.out.println(calculate.getLastResult());
+		System.out.print("Computer : " + calculate.getLastResult());
 		System.out.println();
 		ans.close();
 	}
-
-
 
 	public String getInfix() {
 		return infix;
