@@ -6,11 +6,10 @@ public class Operation {
 	String[] operators = { "+", "-", "*", "/", "(", ")" };
 	String postfix = "";
 
-	
-
 	public void infixToPostfix(String infix, boolean printSteps) {
 
 		postfix = "";
+
 		while (infix.length() > 0) {
 
 			String operand;
@@ -85,7 +84,7 @@ public class Operation {
 			postfix = postfix + " " + stack.Pop();
 		}
 
-		if(printSteps)
+		if (printSteps)
 			System.out.println(postfix);
 	}
 
