@@ -69,6 +69,7 @@ public class Answer {
 		System.out.print("Enter player's solution: ");
 		this.infix = input.next();
 		System.out.println();
+		input.close();
 
 	}
 
@@ -85,6 +86,7 @@ public class Answer {
 		System.out.print("computer: ");
 		System.out.println(calculate.getLastResult());
 		System.out.println();
+		ans.close();
 	}
 
 

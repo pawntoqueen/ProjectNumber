@@ -14,16 +14,21 @@ public class Game {
 	
 	Game() throws Exception {
 		
-			difficultySelection();
+		difficultySelection();
 		Question question = new Question();
 		printGameScreen(question);
 		answer.takeResult(calculate);
-		if(Math.abs(answer.getResult()-question.getTargetNumber())< Math.abs(calculate.getLastResult()-question.getTargetNumber())) {
-			answer.takeInput();
-			if (answer.inputControl(question.getRandomNumbers())) {
-				operation.infixToPostfix(answer.getInfix());
-				operation.postfixEvaluation(operation.toString());
+		
+		if(Math.abs(answer.getResult()-question.getTargetNumber()) < Math.abs(calculate.getLastResult()-question.getTargetNumber())) {
+			answer.takeInput(); // take exp.
+			operation.infixToPostfix(answer.getInfix(), false); // infix to postfix
+			
+			if (answer.inputControl(question.getRandomNumbers()) && answer.getResult() == operation.postfixEvaluation(operation.toString(), false)) {
+				operation.infixToPostfix(answer.getInfix(), true);
+				operation.postfixEvaluation(operation.toString(), true);
 			}
+			else if(answer.getResult() != operation.postfixEvaluation(operation.toString(), false))
+				System.out.println("Your result doesn't match your input value.");
 
 		}
 
@@ -52,7 +57,7 @@ public class Game {
 			answer = difficultyInput.next();
 			if ("123".contains(answer)) {
 				if (answer.equals("1"))
-					targetRange = 20;
+					targetRange = 1000;
 				else if (answer.equals("2"))
 					targetRange = 10;
 				else

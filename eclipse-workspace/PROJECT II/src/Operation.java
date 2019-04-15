@@ -6,8 +6,8 @@ public class Operation {
 	String[] operators = { "+", "-", "*", "/", "(", ")" };
 	String postfix = "";
 
-	public void infixToPostfix(String infix) {
-
+	public void infixToPostfix(String infix, boolean printSteps) {
+		postfix = "";
 		while (infix.length() > 0) {
 
 			String operand;
@@ -30,16 +30,20 @@ public class Operation {
 							notOperator = false;
 					}
 				} while (notOperator && !infix.isEmpty());
-				System.out.println(postfix + "\t\t\t");
-				printStack();
+				// infixToPostfixSteps[step] = postfix;
+				if (printSteps)
+					printStack();
 			} else if (operators[4].equals(infix.substring(0, 1))) {
 				stack.Push(infix.substring(0, 1));
 				infix = infix.substring(1);
 			} else if (operators[5].equals(infix.substring(0, 1))) {
 				while (!stack.Peek().equals("(")) {
 					postfix = postfix + " " + stack.Pop();
-					System.out.println(postfix + "\t\t\t");
-					printStack();
+					if (printSteps) {
+						System.out.println(postfix);
+						printStack();
+					}
+
 				}
 				stack.Pop();
 				infix = infix.substring(1);
@@ -56,15 +60,20 @@ public class Operation {
 							operation = false;
 						if (operation == true) {
 							postfix = postfix + " " + stack.Pop();
-							System.out.println(postfix + "\t\t\t");
-							printStack();
+
+							if (printSteps) {
+								printStack();
+								System.out.println(postfix);
+							}
 						}
 
 					} while (operation && !stack.isEmpty());
 				}
 				stack.Push(operator);
-				System.out.println(postfix + "\t\t\t");
-				printStack();
+				if (printSteps) {
+					System.out.println(postfix + "\t\t\t");
+					printStack();
+				}
 				infix = infix.substring(1);
 				postfix += " ";
 			}
@@ -73,6 +82,9 @@ public class Operation {
 		while (!stack.isEmpty()) {
 			postfix = postfix + " " + stack.Pop();
 		}
+
+		if(printSteps)
+			System.out.println(postfix);
 	}
 
 	public String toString() {
@@ -96,7 +108,7 @@ public class Operation {
 
 	}
 
-	public int postfixEvaluation(String expressionString) throws Exception {
+	public int postfixEvaluation(String expressionString, Boolean printSteps) throws Exception {
 		/*
 		 * This function evaluates the postfix expression.
 		 */
@@ -104,9 +116,11 @@ public class Operation {
 		Stack postfix = new Stack(20);
 
 		String[] expression = expressionString.split(" ");
-		System.out.println("Postfix expression: " + expressionString);
-
-		System.out.println("-------------------------");
+		if(printSteps) {
+			System.out.println("Postfix expression: " + expressionString);
+			System.out.println("-------------------------");
+		}
+			
 
 		for (int i = 0; i < expression.length; i++) { // for begin
 
@@ -119,7 +133,8 @@ public class Operation {
 			// then push the result into the stack.
 			else if (postfix.Size() >= 2) {
 
-				showPostFixEvalStep(postfix);
+				if (printSteps)
+					showPostFixEvalStep(postfix);
 
 				//
 				int firstOperand = Integer.valueOf(String.valueOf(postfix.Peek()));
@@ -138,8 +153,9 @@ public class Operation {
 				else if (expression[i].equals("/"))
 					postfix.Push(secondOperand / firstOperand);
 				//
-
-				showPostFixEvalStep(postfix);
+				
+				if (printSteps)
+					showPostFixEvalStep(postfix);
 
 			}
 
