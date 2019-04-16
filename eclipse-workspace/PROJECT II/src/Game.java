@@ -4,6 +4,7 @@ import enigma.core.Enigma;
 
 public class Game {
 
+	Scanner scan = new Scanner(System.in);
 	ComputerAnswer calculate;
 
 	static enigma.console.Console cn = Enigma.getConsole("NUMBERS", 100, 30, 20, 5);
@@ -26,20 +27,26 @@ public class Game {
 			printGameScreen(question);
 			answer.takeResult(calculate);
 
+			
+			
 			// player's result is closer to target number
-			if (Math.abs(answer.getResult() - question.getTargetNumber()) <= Math
-					.abs(calculate.getLastResult() - question.getTargetNumber())) {
+			if (Math.abs(answer.getResult() - question.getTargetNumber()) <= Math.abs(calculate.getLastResult() - question.getTargetNumber())) {
 				answer.takeInput();
-				if (answer.inputControl(question.getRandomNumbers())) {
+				operation.infixToPostfix(answer.getInfix(), false);
+				
+				
+				if (answer.inputControl(question.getRandomNumbers()) && answer.getResult() == operation.postfixEvaluation(operation.toString(), false)) {
 					operation.infixToPostfix(answer.getInfix(), true);
-					operation.postfixEvaluation(operation.toString());
+					operation.postfixEvaluation(operation.toString(),true);
 				}
 
 				if (Math.abs(answer.getResult() - question.getTargetNumber()) <= 10)
 					point = 15 - Abs(answer.getResult() - question.getTargetNumber());
 				else
 					point = 5;
-
+				if(answer.getResult() != operation.postfixEvaluation(operation.toString(), false))
+					System.out.println("Your result doesn't match your input value.");
+				else
 				playerScore += point;
 
 			}
@@ -59,7 +66,7 @@ public class Game {
 
 			System.out.println("Player Score : " + playerScore);
 			System.out.println("Computer Score : " + computerScore);
-
+			String str = scan.nextLine();
 		}
 
 		if (playerScore > computerScore)
