@@ -7,14 +7,13 @@ public class Game {
 	static enigma.console.Console cn = Enigma.getConsole("NUMBERS", 100, 30, 20, 5);
 
 	Scanner scan = new Scanner(System.in);
-	Scanner scan2 = new Scanner(System.in);
 
 	ComputerAnswer calculate;
 	Question question;
 	Operation operation = new Operation();
 	Answer answer = new Answer();
-	int targetRange = 1;
 
+	int targetRange = 1;
 	int playerScore = 0;
 	int computerScore = 0;
 	int point = 0;
@@ -67,7 +66,7 @@ public class Game {
 
 			System.out.println("Player Score : " + playerScore);
 			System.out.println("Computer Score : " + computerScore);
-			String str = scan.nextLine();
+			scan.nextLine();
 
 			clearConsole(29, 100);
 
@@ -133,7 +132,8 @@ public class Game {
 								+ "If the difference is less than or equals to 10;point = 15 - Abs(TargetNumber - CalculatedNumber)\r\n"
 								+ "If the difference is greater than 10; point = 5\r\n" + "");
 				System.out.println("Press any key to go back to menu");
-				scan2.nextLine();
+				Scanner wait = new Scanner(System.in);
+				wait.nextLine();
 				clearConsole(29, 100);
 
 			}
@@ -148,9 +148,9 @@ public class Game {
 
 		cn.getTextWindow().setCursorPosition(0, 0);
 		System.out.println("Select difficulty: ");
-		System.out.println("1. Easy");
-		System.out.println("2. Medium");
-		System.out.println("3. Hard");
+		System.out.println("1. Easy    (Target range becomes 20)");
+		System.out.println("2. Medium  (Target range becomes 10)");
+		System.out.println("3. Hard    (Target range becomes 1)");
 
 		String answer = " ";
 
