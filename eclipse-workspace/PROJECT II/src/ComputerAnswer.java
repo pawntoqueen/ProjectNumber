@@ -5,9 +5,6 @@ public class ComputerAnswer {
 	int min = 999;
 	static int targetRange = 0;
 	private int lastResult;
-
-	int counter = 0;
-
 	private int stepNumber;
 	private ComputerSolutionSteps[] solutionSteps;
 
@@ -63,7 +60,6 @@ public class ComputerAnswer {
 			}
 
 		}
-		counter++;
 
 	}
 

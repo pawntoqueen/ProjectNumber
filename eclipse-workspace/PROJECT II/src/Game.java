@@ -1,10 +1,22 @@
 import java.util.Scanner;
 
 import enigma.core.Enigma;
+import enigma.event.TextMouseEvent;
+import enigma.event.TextMouseListener;
 
 public class Game {
 
-	static enigma.console.Console cn = Enigma.getConsole("NUMBERS", 100, 30, 20, 5);
+	static enigma.console.Console cn = Enigma.getConsole("NUMBERS", 100, 35, 20, 5);
+
+	public static TextMouseListener tmlis;
+
+	// ------ Standard variables for mouse ------
+	public static int mousepr; // mouse pressed?
+	public static int mousex; // mouse text coords.
+	public static int mousey;
+	// ----------------------------------------------------
+
+	public static String choice = "";
 
 	Scanner scan = new Scanner(System.in);
 
@@ -44,10 +56,17 @@ public class Game {
 					point = 15 - Math.abs(answer.getResult() - question.getTargetNumber());
 				else
 					point = 5;
-				if (answer.getResult() != operation.postfixEvaluation(operation.toString(), false))
+				if (answer.getResult() != operation.postfixEvaluation(operation.toString(), false)) {
+
 					System.out.println("Your result doesn't match your input value.");
-				else
+					computerScore += point;
+					System.out.println("Computer gets " + point + " points\n");
+
+				} else {
+
 					playerScore += point;
+					System.out.println("Player gets " + point + " points\n");
+				}
 
 			}
 			// computer's result is closer to target number
@@ -61,6 +80,7 @@ public class Game {
 					point = 5;
 
 				computerScore += point;
+				System.out.println("Computer gets " + point + " points\n");
 
 			}
 
@@ -83,91 +103,182 @@ public class Game {
 
 	}
 
-	public void menu() {
+	public static String mouseControl() throws InterruptedException {
 
-		int choice;
+		// ------ Standard code for mouse ------
 
-		do {
-			Scanner scan = new Scanner(System.in);
-			cn.getTextWindow().setCursorPosition(0, 0);
-			System.out.println("1 - Start");
-			System.out.println("2 - Options");
-			System.out.println("3 - Instructions");
-			choice = scan.nextInt();
-
-			scan.close();
-
-			clearConsole(10, 40);
-			if (choice == 2) {
-
-				difficultySelection();
-				clearConsole(10, 40);
-			}
-			if (choice == 3) {
-
-				cn.getTextWindow().setCursorPosition(0, 0);
-				System.out.println(
-						"Game is played with two players: human player and computer. A random target number between 100-999 is determined initially. Players will try to reach/approach this target number in 30 seconds. Players use five random small numbers between 1-9, and one big random number (25, 50, 75 or 100) and 4 basic operations (* / + -) to reach this target.\r\n"
-								+ "\r\n" + "Game Playing Rules/Stages\r\n" + "\r\n"
-								+ "1. Target number is chosen randomly (100-999). \r\n"
-								+ "2. Five small numbers are chosen randomly (1-9). \r\n"
-								+ "3. One big number is chosen randomly (25/50/75/100). \r\n"
-								+ "4. 30-second countdown starts.\r\n"
-								+ "5. During this time, human player makes calculations in his mind or with pen and paper. Computer tries to reach the target by using random operations with randomly chosen numbers.\r\n"
-								+ "6. Rules for operations:\r\n"
-								+ "         *   Players can use each number only once (given or calculated).\r\n"
-								+ "         *   Players do not have to use all the numbers.\r\n"
-								+ "         *   For division operation, integer division will be used.  \r\n"
-								+ "         *   If parenthesis are not used, multiplication and division have higher priority. \r\n"
-								+ "              Operations which have the same priority are calculated from left to right. \r\n"
-								+ "7. When the time is up, players will announce their result numbers.\r\n"
-								+ "8. The player with the closest number explains how he reached this number.\r\n"
-								+ "9. If the explanation is correct, he gets the point; if it is wrong, then his opponent gets that point.\r\n"
-								+ "10. The one who reaches 100 points first wins the game.\r\n" + "\r\n"
-								+ "Explanation of the Operations\r\n" + "\r\n"
-								+ "If the human is the closest to the target number, he enters an infix expression. This expression must first be transformed to postfix expression, then this postfix expression must be evaluated. Stages of the transformation/evaluation must be shown on the screen step by step.\r\n"
-								+ "\r\n"
-								+ "If the computer player is the closest to the target number, it displays each operation used on the screen. \r\n"
-								+ "\r\n" + "Scoring\r\n" + "\r\n"
-								+ "If the difference is less than or equals to 10;point = 15 - Abs(TargetNumber - CalculatedNumber)\r\n"
-								+ "If the difference is greater than 10; point = 5\r\n" + "");
-				System.out.println("Press any key to go back to menu");
-				Scanner wait = new Scanner(System.in);
-				wait.nextLine();
-				clearConsole(29, 100);
-
+		tmlis = new TextMouseListener() {
+			public void mouseClicked(TextMouseEvent arg0) {
 			}
 
-		} while (choice != 1);
+			public void mousePressed(TextMouseEvent arg0) {
+				if (mousepr == 0) {
+					mousepr = 1;
+					mousex = arg0.getX();
+					mousey = arg0.getY();
+				}
+			}
 
+			public void mouseReleased(TextMouseEvent arg0) {
+			}
+		};
+		cn.getTextWindow().addTextMouseListener(tmlis);
+
+		// ----------------------------------------------------
+
+		int px = 5, py = 5;
+
+		while (true) {
+			if (mousepr == 1) { // if mouse button pressed
+
+				px = mousex;
+				py = mousey;
+				if (mousex >= 0 && mousex <= 13 && mousey == 1)
+					choice = "start";
+				if (mousex >= 0 && mousex <= 10 && mousey == 3)
+					choice = "options";
+				if (mousex >= 16 && mousex <= 46 && mousey == 3)
+					choice = "easy";
+				if (mousex >= 16 && mousex <= 46 && mousey == 4)
+					choice = "normal";
+				if (mousex >= 16 && mousex <= 46 && mousey == 5)
+					choice = "hard";
+				if (mousex == 0 && mousey == 3)
+					choice = "back to menu";
+				if (mousex >= 0 && mousex <= 15 && mousey == 5)
+					choice = "instructions";
+				if (mousex >= 0 && mousex <= 7 && mousey == 7)
+					choice = "exit";
+				if (mousex >= 0 && mousex <= 15 && mousey == 9)
+					choice = "options -> menu";
+				if (mousex >= 0 && mousex <= 15 && mousey == 29)
+					choice = "instructions -> menu";
+				if (mousex >= 39 && mousex <= 47 && mousey == 20)
+					choice = "go to menu";
+
+				mousepr = 0; // last action
+
+			}
+			// thread command just used for mouse control
+			Thread.sleep(20);
+			return choice;
+		}
 	}
 
-	public void difficultySelection() {
+	public void menu() throws InterruptedException {
 
-		Scanner difficultyInput = new Scanner(System.in);
+		cn.getTextWindow().setCursorPosition(0, 10);
+		System.out.println("\r\n"
+				+ " ____  _____  _____  _____  ____    ____  ______   ________  _______     ______   \r\n"
+				+ "|_   \\|_   _||_   _||_   _||_   \\  /   _||_   _ \\ |_   __  ||_   __ \\  .' ____ \\  \r\n"
+				+ "  |   \\ | |    | |    | |    |   \\/   |    | |_) |  | |_ \\_|  | |__) | | (___ \\_| \r\n"
+				+ "  | |\\ \\| |    | '    ' |    | |\\  /| |    |  __'.  |  _| _   |  __ /   _.____`.  \r\n"
+				+ " _| |_\\   |_    \\ \\__/ /    _| |_\\/_| |_  _| |__) |_| |__/ | _| |  \\ \\_| \\____) | \r\n"
+				+ "|_____|\\____|    `.__.'    |_____||_____||_______/|________||____| |___|\\______.' \r\n"
+				+ "                                                                                  \r\n" + "");
 
-		cn.getTextWindow().setCursorPosition(0, 0);
-		System.out.println("Select difficulty: ");
-		System.out.println("1. Easy    (Target range becomes 20)");
-		System.out.println("2. Medium  (Target range becomes 10)");
-		System.out.println("3. Hard    (Target range becomes 1)");
+		cn.getTextWindow().setCursorPosition(30, 20);
+		System.out.println("click to | Start |");
 
-		String answer = " ";
+		while (true) {
+			mouseControl();
+			if (choice.equals("go to menu"))
+				break;
 
-		while (!"123".contains(answer)) {
-			answer = difficultyInput.next();
-			if ("123".contains(answer)) {
-				if (answer.equals("1"))
-					targetRange = 20;
-				else if (answer.equals("2"))
-					targetRange = 10;
-				else
-					targetRange = 1;
-			} else
-				System.out.println("Wrong input, please try again.");
 		}
 
-		difficultyInput.close();
+		clearConsole(25, 100);
+
+		while (!choice.equals("start")) {
+
+			clearConsole(10, 50);
+
+			cn.getTextWindow().setCursorPosition(0, 1);
+			System.out.println("| Start Game |");
+			System.out.println();
+			System.out.println("| Options |");
+			System.out.println();
+			System.out.println("| Instructions |");
+			System.out.println();
+			System.out.println("| Exit |");
+
+			mouseControl();
+
+			if (choice.equals("options")) {
+
+				clearConsole(10, 20);
+				while (true) {
+					cn.getTextWindow().setCursorPosition(0, 0);
+					System.out.println();
+					System.out.println("Select difficulty : ");
+					System.out.println();
+					System.out.println("				| Easy    (Target range : 20) |");
+					System.out.println("				| Normal  (Target range : 10) |");
+					System.out.println("				| Hard    (Target range : 1)  |");
+					System.out.println("\n");
+					System.out.println("\n| Back to Menu |");
+					mouseControl();
+					if (choice.equals("easy")) {
+						targetRange = 20;
+						cn.getTextWindow().setCursorPosition(18, 7);
+						System.out.println("Difficulty is Easy!	");
+					}
+					if (choice.equals("normal")) {
+						targetRange = 10;
+						cn.getTextWindow().setCursorPosition(18, 7);
+						System.out.println("Difficulty is Normal!	");
+					}
+					if (choice.equals("hard")) {
+						targetRange = 1;
+						cn.getTextWindow().setCursorPosition(18, 7);
+						System.out.println("Difficulty is Hard!	");
+					}
+					if (choice.equals("options -> menu"))
+						break;
+
+				}
+			}
+			if (choice.equals("instructions")) {
+
+				clearConsole(10, 20);
+				cn.getTextWindow().setCursorPosition(0, 0);
+				System.out.println();
+				cn.getTextWindow().setCursorPosition(0, 1);
+				System.out.println(
+						"   Game is played with two players: human player and computer.A random target number between 100-999 is determined initially. Players will try to reach/approach this target number in 30 seconds. \r\n"
+								+ "Players use five random small numbers between 1-9, and one big random number (25, 50, 75 or 100) and 4 basic operations (* / + -) to reach this target.\r\n"
+								+ "\r\n" + "   Game Playing Rules/Stages\r\n" + "\r\n"
+								+ "   Target number is chosen randomly (100-999). Five small numbers are chosen randomly (1-9). One big number is chosen randomly (25/50/75/100). 30-second countdown starts. \r\n"
+								+ "During this time, human player makes calculations in his mind or with pen and paper. Computer tries to reach the target by using random operations with randomly chosen numbers.\r\n"
+								+ "   Rules for operations:\r\n"
+								+ "     *	Players can use each number only once (given or calculated).\r\n"
+								+ "     *	Players do not have to use all the numbers.\r\n"
+								+ "     *	For division operation, integer division will be used.  \r\n"
+								+ "     *	If parenthesis are not used, multiplication and division have higher priority. Operations which have the same priority are calculated from left to right. \r\n"
+								+ "   When the time is up, players will announce their result numbers. The player with the closest     number explains how he reached this number.\r\n"
+								+ "If the explanation is correct, he gets the point; if it is wrong, then his opponent gets that point. The one who reaches 100 points first wins the game.\r\n"
+								+ "\r\n" + "   Scoring\r\n" + "\r\n"
+								+ "If the difference is less than or equals to 10; point = 15 - Abs(TargetNumber - CalculatedNumber)\r\n"
+								+ "If the difference is greater than 10; point = 5\r\n" + "");
+				System.out.println();
+				System.out.println("| Back to Menu |");
+				while (true) {
+					mouseControl();
+					if (choice.equals("instructions -> menu")) {
+
+						clearConsole(32, 100);
+						break;
+					}
+
+				}
+			}
+			if (choice.equals("exit"))
+				System.exit(0);
+
+		}
+
+		clearConsole(10, 40);
+
 	}
 
 	public void clearConsole(int x, int y) {
@@ -183,11 +294,13 @@ public class Game {
 		}
 	}
 
+	int y_coordinate = -1;
+
 	public void printGameScreen(Question question) {
 
 		calculate = new ComputerAnswer();
 
-		cn.getTextWindow().setCursorPosition(0, 0);
+		cn.getTextWindow().setCursorPosition(0, y_coordinate);
 		System.out.println("-------------------------------------- Round " + ++Question.round
 				+ " --------------------------------------------");
 
@@ -204,6 +317,8 @@ public class Game {
 
 		System.out.println(
 				"--------------------------------------------------------------------------------------------");
+
+		y_coordinate -= 4;
 
 	}
 
