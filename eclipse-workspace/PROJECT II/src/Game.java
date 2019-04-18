@@ -38,8 +38,7 @@ public class Game {
 
 			question = new Question();
 			printGameScreen(question);
-			answer.takeResult(calculate);
-
+			try {answer.takeResult(calculate); } catch(NumberFormatException n) {System.out.println("wrong input! Computer win.");}
 			// player's result is closer to target number
 			if (Math.abs(answer.getResult() - question.getTargetNumber()) <= Math
 					.abs(calculate.getLastResult() - question.getTargetNumber())) {
@@ -71,7 +70,8 @@ public class Game {
 			}
 			// computer's result is closer to target number
 			else {
-
+				System.out.println();
+				System.out.println("Computer solution steps:");
 				calculate.printSolutionSteps();
 
 				if (Math.abs(calculate.getLastResult() - question.getTargetNumber()) <= 10)
@@ -338,7 +338,7 @@ public class Game {
 					flag = false;
 			}
 
-			if (time1 - time2 >= 100) {
+			if (time1 - time2 >= 1) {
 				System.out.print(countdown-- + " ");
 
 				time2 = time1;
