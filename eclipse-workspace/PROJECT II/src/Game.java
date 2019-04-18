@@ -68,11 +68,11 @@ public class Game {
 			System.out.println("Computer Score : " + computerScore);
 			scan.nextLine();
 
-			clearConsole(29, 100);
+			clearConsole(200,200);
 
 		}
 
-		clearConsole(10, 40);
+		clearConsole(1000, 1000);
 
 		if (playerScore > computerScore)
 			System.out.println("Player Win!");
@@ -85,25 +85,31 @@ public class Game {
 
 	public void menu() {
 
-		int choice;
+		String choice;
 
 		do {
 			Scanner scan = new Scanner(System.in);
 			cn.getTextWindow().setCursorPosition(0, 0);
+			printName();
+			cn.getTextWindow().setCursorPosition(30, 9);
 			System.out.println("1 - Start");
+			cn.getTextWindow().setCursorPosition(30, 10);
 			System.out.println("2 - Options");
+			cn.getTextWindow().setCursorPosition(30, 11);
 			System.out.println("3 - Instructions");
-			choice = scan.nextInt();
+			choice = scan.next();
 
 			scan.close();
 
-			clearConsole(10, 40);
-			if (choice == 2) {
+			clearConsole(200,200);
+			if (choice.equals("1"))
+				continue;
+			if (choice.equals("2")) {
 
 				difficultySelection();
-				clearConsole(10, 40);
+				clearConsole(200,200);
 			}
-			if (choice == 3) {
+			if (choice.equals("3")) {
 
 				cn.getTextWindow().setCursorPosition(0, 0);
 				System.out.println(
@@ -134,11 +140,14 @@ public class Game {
 				System.out.println("Press any key to go back to menu");
 				Scanner wait = new Scanner(System.in);
 				wait.nextLine();
-				clearConsole(29, 100);
+				clearConsole(200,200);
 
 			}
+			
+			else 
+				System.out.println("Wrong input, please try again.");
 
-		} while (choice != 1);
+		} while (!choice.equals("1"));
 
 	}
 
@@ -234,4 +243,19 @@ public class Game {
 
 	}
 
+	public void printName() {
+		System.out.println("______          _           _     _   _                 _                   ");
+		System.out.println("| ___ \\        (_)         | |   | \\ | |               | |                  ");
+		System.out.println("| |_/ / __ ___  _  ___  ___| |_  |  \\| |_   _ _ __ ___ | |__   ___ _ __ ___ ");
+		System.out.println("|  __/ '__/ _ \\| |/ _ \\/ __| __| | . ` | | | | '_ ` _ \\| '_ \\ / _ \\ '__/ __|");
+		System.out.println("| |  | | | (_) | |  __/ (__| |_  | |\\  | |_| | | | | | | |_) |  __/ |  \\__ \\");
+		System.out.println("\\_|  |_|  \\___/| |\\___|\\___|\\__| \\_| \\_/\\__,_|_| |_| |_|_.__/ \\___|_|  |___/");
+		System.out.println("              _/ |                                                          ");
+		System.out.println("             |__/               ");
+	}
+	
+	
+	
+	
+	
 }
