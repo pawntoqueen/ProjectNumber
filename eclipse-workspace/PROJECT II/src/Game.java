@@ -72,7 +72,7 @@ public class Game {
 
 		}
 
-		clearConsole(1000, 1000);
+		clearConsole(200, 200);
 
 		if (playerScore > computerScore)
 			System.out.println("Player Win!");
